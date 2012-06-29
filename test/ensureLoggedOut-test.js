@@ -85,5 +85,37 @@ vows.describe('ensureLoggedOut').addBatch({
       },
     },
   },
+  
+  'middleware with defaults': {
+    topic: function() {
+      return ensureLoggedOut();
+    },
+    
+    'when handling a request that is authenticated': {
+      topic: function(ensureLoggedOut) {
+        var self = this;
+        var req = new MockRequest();
+        req.isAuthenticated = function() { return true; };
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          ensureLoggedOut(req, res, next)
+        });
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should redirect' : function(err, req, res) {
+        assert.equal(res._redirect, '/');
+      },
+    },
+  },
 
 }).export(module);

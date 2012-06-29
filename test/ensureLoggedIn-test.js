@@ -85,5 +85,37 @@ vows.describe('ensureLoggedIn').addBatch({
       },
     },
   },
+  
+  'middleware with defaults': {
+    topic: function() {
+      return ensureLoggedIn();
+    },
+    
+    'when handling a request that is not authenticated': {
+      topic: function(ensureLoggedIn) {
+        var self = this;
+        var req = new MockRequest();
+        req.isAuthenticated = function() { return false; };
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          ensureLoggedIn(req, res, next)
+        });
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should redirect' : function(err, req, res) {
+        assert.equal(res._redirect, '/login');
+      },
+    },
+  },
 
 }).export(module);
