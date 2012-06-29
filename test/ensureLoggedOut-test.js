@@ -84,6 +84,31 @@ vows.describe('ensureLoggedOut').addBatch({
         assert.isUndefined(res._redirect);
       },
     },
+    
+    'when handling a request that lacks an isAuthenticated function': {
+      topic: function(ensureLoggedOut) {
+        var self = this;
+        var req = new MockRequest();
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(new Error('should not be called'));
+        }
+        
+        function next(err) {
+          self.callback(err, req, res);
+        }
+        process.nextTick(function () {
+          ensureLoggedOut(req, res, next)
+        });
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should not redirect' : function(err, req, res) {
+        assert.isUndefined(res._redirect);
+      },
+    },
   },
   
   'middleware with defaults': {

@@ -93,6 +93,35 @@ vows.describe('ensureLoggedIn').addBatch({
         assert.equal(req.session.returnTo, '/foo');
       },
     },
+    
+    'when handling a request that lacks an isAuthenticated function': {
+      topic: function(ensureLoggedIn) {
+        var self = this;
+        var req = new MockRequest();
+        req.url = '/foo';
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          ensureLoggedIn(req, res, next)
+        });
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should redirect' : function(err, req, res) {
+        assert.equal(res._redirect, '/signin');
+      },
+      'should set returnTo' : function(err, req, res) {
+        assert.equal(req.session.returnTo, '/foo');
+      },
+    },
   },
   
   'middleware with a redirectTo and setReturnTo options': {
