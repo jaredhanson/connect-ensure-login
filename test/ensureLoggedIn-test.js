@@ -68,7 +68,7 @@ vows.describe('ensureLoggedIn').addBatch({
       topic: function(ensureLoggedIn) {
         var self = this;
         var req = new MockRequest();
-        req.url = '/foo';
+        req.originalUrl = '/foo';
         req.isAuthenticated = function() { return false; };
         var res = new MockResponse();
         res.done = function() {
@@ -98,7 +98,7 @@ vows.describe('ensureLoggedIn').addBatch({
       topic: function(ensureLoggedIn) {
         var self = this;
         var req = new MockRequest();
-        req.url = '/foo';
+        req.originalUrl = '/foo';
         var res = new MockResponse();
         res.done = function() {
           self.callback(null, req, res);
@@ -169,7 +169,7 @@ vows.describe('ensureLoggedIn').addBatch({
       topic: function(ensureLoggedIn) {
         var self = this;
         var req = new MockRequest();
-        req.url = '/foo';
+        req.originalUrl = '/foo';
         req.isAuthenticated = function() { return false; };
         var res = new MockResponse();
         res.done = function() {
