@@ -40,6 +40,23 @@ Simply mount Passport's `authenticate()` middleware at the login route.
 Upon log in, Passport will notice the `returnTo` URL saved in the session and
 redirect the user back to `/settings`.
 
+#### Step By Step
+
+If the user is not logged in, the sequence of requests and responses that take
+place during this process can be confusing.  Here is a step-by-step overview of
+what happens:
+
+1. User navigates to `GET /settings`
+    - Middleware sets `session.returnTo` to `/settings`
+    - Middleware redirects to `/login`
+2. User's browser follows redirect to `GET /login`
+    - Application renders a login form (or, alternatively, offers SSO)
+3. User submits credentials to `POST /login`
+    - Application verifies credentials
+    - Passport reads `session.returnTo` and redirects to `/settings`
+4. User's browser follows redirect to `GET /settings`
+    - Now authenticated, application renders settings page
+
 ## Tests
 
     $ npm install --dev
