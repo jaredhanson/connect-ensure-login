@@ -68,7 +68,7 @@ vows.describe('ensureLoggedIn').addBatch({
       topic: function(ensureLoggedIn) {
         var self = this;
         var req = new MockRequest();
-        req.originalUrl = '/foo';
+        req.url = '/foo';
         req.isAuthenticated = function() { return false; };
         var res = new MockResponse();
         res.done = function() {
@@ -94,11 +94,42 @@ vows.describe('ensureLoggedIn').addBatch({
       },
     },
     
+    'when handling a request to a sub-app that is not authenticated': {
+      topic: function(ensureLoggedIn) {
+        var self = this;
+        var req = new MockRequest();
+        req.url = '/foo';
+        req.originalUrl = '/sub/foo';
+        req.isAuthenticated = function() { return false; };
+        var res = new MockResponse();
+        res.done = function() {
+          self.callback(null, req, res);
+        }
+        
+        function next(err) {
+          self.callback(new Error('should not be called'));
+        }
+        process.nextTick(function () {
+          ensureLoggedIn(req, res, next)
+        });
+      },
+      
+      'should not error' : function(err, req, res) {
+        assert.isNull(err);
+      },
+      'should redirect' : function(err, req, res) {
+        assert.equal(res._redirect, '/signin');
+      },
+      'should set returnTo' : function(err, req, res) {
+        assert.equal(req.session.returnTo, '/sub/foo');
+      },
+    },
+    
     'when handling a request that lacks an isAuthenticated function': {
       topic: function(ensureLoggedIn) {
         var self = this;
         var req = new MockRequest();
-        req.originalUrl = '/foo';
+        req.url = '/foo';
         var res = new MockResponse();
         res.done = function() {
           self.callback(null, req, res);
@@ -169,7 +200,7 @@ vows.describe('ensureLoggedIn').addBatch({
       topic: function(ensureLoggedIn) {
         var self = this;
         var req = new MockRequest();
-        req.originalUrl = '/foo';
+        req.url = '/foo';
         req.isAuthenticated = function() { return false; };
         var res = new MockResponse();
         res.done = function() {
