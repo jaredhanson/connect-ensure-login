@@ -1,6 +1,6 @@
 {
   "name": "connect-ensure-login",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Login session ensuring middleware for Connect.",
   "keywords": ["connect", "express", "auth", "authn", "authentication", "login", "session", "passport"],
   "repository": {
