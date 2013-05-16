@@ -40,6 +40,18 @@ Simply mount Passport's `authenticate()` middleware at the login route.
 Upon log in, Passport will notice the `returnTo` URL saved in the session and
 redirect the user back to `/settings`.
 
+#### Return HTTP 401
+
+In this example, an application has API that only should be accessible by authorized users. A user must be logged in
+before API calls can be accepted.
+
+    app.get('/api',
+        ensureLoggedIn({sendHTTPCode:true},
+        function(req, res){ ... });
+
+If a user is not logged in and client-side script is trying to make API calls, the application will return
+401 (Unauthorized) status code that should be handled by the script.
+
 #### Step By Step
 
 If the user is not logged in, the sequence of requests and responses that take
