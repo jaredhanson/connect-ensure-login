@@ -70,6 +70,7 @@ require authentication, pass an array of strings (into allowedPaths) of
 allowed paths that should not require authentication.
  
 Example:
+
     app.all('*', connect.ensureLoggedIn('/login', [
       '/stylesheets/login.css',
       '/javascripts/login.js',
