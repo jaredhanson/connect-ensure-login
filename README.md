@@ -57,6 +57,28 @@ what happens:
 4. User's browser follows redirect to `GET /settings`
     - Now authenticated, application renders settings page
 
+#### Authenticate All Paths With a Few Exceptions
+
+If you want to require authentication for all paths:
+
+    app.all('*', connect.ensureLoggedIn('/login'), function(req, res, next){
+      next(); 
+    });
+
+but want a select few paths (primarily assets) pages to not 
+require authentication, pass an array of strings (into allowedPaths) of
+allowed paths that should not require authentication.
+ 
+Example:
+    app.all('*', connect.ensureLoggedIn('/login', [
+      '/stylesheets/login.css',
+      '/javascripts/login.js',
+      '/images/logo.png',
+      '/images/favicon.png'
+    ]), function(req, res, next){
+      next(); 
+    });
+
 ## Tests
 
     $ npm install --dev
