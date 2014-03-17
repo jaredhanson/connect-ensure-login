@@ -13,6 +13,10 @@ page that was originally requested.
 
 #### Ensure Authentication
 
+In your app.js file:
+
+    var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn;
+
 In this example, an application has a settings page where preferences can be
 configured.  A user must be logged in before accessing this page.
 
