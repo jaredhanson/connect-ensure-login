@@ -1,6 +1,6 @@
 {
   "name": "connect-ensure-login",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Login session ensuring middleware for Connect.",
   "keywords": ["connect", "express", "auth", "authn", "authentication", "login", "session", "passport"],
   "repository": {
@@ -23,7 +23,7 @@
   "dependencies": {
   },
   "devDependencies": {
-    "vows": "0.6.x"
+    "vows": "0.7.x"
   },
   "scripts": {
     "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
