@@ -35,7 +35,10 @@ Simply mount Passport's `authenticate()` middleware at the login route.
       res.render('login');
     });
 
-    app.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
+    app.post('/login', passport.authenticate('local', {
+        successReturnToOrRedirect : '/',
+        failureRedirect           : '/login'
+    }));
     
 Upon log in, Passport will notice the `returnTo` URL saved in the session and
 redirect the user back to `/settings`.
