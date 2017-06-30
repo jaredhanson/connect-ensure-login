@@ -16,12 +16,14 @@ page that was originally requested.
 In this example, an application has a settings page where preferences can be
 configured.  A user must be logged in before accessing this page.
 
+    var ensureLoggedIn = require('ensureLoggedIn');
+
     app.get('/settings',
       ensureLoggedIn('/login'),
       function(req, res) {
         res.render('settings', { user: req.user });
       });
-      
+
 If a user is not logged in when attempting to access this page, the request will
 be redirected to `/login` and the original request URL (`/settings`) will be
 saved to the session at `req.session.returnTo`.
@@ -36,7 +38,7 @@ Simply mount Passport's `authenticate()` middleware at the login route.
     });
 
     app.post('/login', passport.authenticate('local', { successReturnToOrRedirect: '/', failureRedirect: '/login' }));
-    
+
 Upon log in, Passport will notice the `returnTo` URL saved in the session and
 redirect the user back to `/settings`.
 
