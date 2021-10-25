@@ -2,7 +2,16 @@
   "name": "connect-ensure-login",
   "version": "0.1.1",
   "description": "Login session ensuring middleware for Connect.",
-  "keywords": ["connect", "express", "auth", "authn", "authentication", "login", "session", "passport"],
+  "keywords": [
+    "connect",
+    "express",
+    "auth",
+    "authn",
+    "authentication",
+    "login",
+    "session",
+    "passport"
+  ],
   "repository": {
     "type": "git",
     "url": "git://github.com/jaredhanson/connect-ensure-login.git"
@@ -15,18 +24,22 @@
     "email": "jaredhanson@gmail.com",
     "url": "http://www.jaredhanson.net/"
   },
-  "licenses": [ {
-    "type": "MIT",
-    "url": "http://www.opensource.org/licenses/MIT" 
-  } ],
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "http://www.opensource.org/licenses/MIT"
+    }
+  ],
   "main": "./lib",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
-    "vows": "0.6.x"
+    "cross-env": "^7.0.3",
+    "vows": "^0.8.3"
   },
   "scripts": {
-    "test": "NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
+    "test": "cross-env NODE_PATH=lib node_modules/.bin/vows test/*-test.js"
   },
-  "engines": { "node": ">= 0.4.0" }
+  "engines": {
+    "node": ">= 0.4.0"
+  }
 }
